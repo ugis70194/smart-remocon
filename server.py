@@ -74,6 +74,14 @@ async def on_message(message):
         temp = getState()[1]
         airconOP(['off', temp])
         dbUpdate('aircon_mode', 'off')
+    elif not re.search(r'エアコン\S*冷房', message.content) is None:
+        airconOP(['cool', 27])
+        dbUpdate('aircon_mode', 'cool')
+        dbUpdate('aircon_temp', 27)
+    elif not re.search(r'エアコン\S*暖房', message.content) is None:
+        airconOP(['warm', 20])
+        dbUpdate('aircon_mode', 'warm')
+        dbUpdate('aircon_temp', 20)
     elif not re.search(r'温度\S*下げて', message.content) is None:
         state = getState()
         state[1] -= 1
