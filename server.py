@@ -27,7 +27,7 @@ def dbUpdate(column, state):
     elif column == 'aircon':
         cursor.execute("UPDATE user_data SET aircon = ?", (state,))
     elif column == 'aircon_temp':
-        cursor.execute("UPDATE user_data SET aircon = ?", (state,))
+        cursor.execute("UPDATE user_data SET aircon_temp = ?", (state,))
     elif column == 'aircon_mode':
         cursor.execute("UPDATE user_data SET aircon_mode = ?", (state,))
 
