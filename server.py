@@ -24,8 +24,6 @@ def dbUpdate(column, state):
     """
     if column == 'light':
         cursor.execute("UPDATE user_data SET light = ?", (state,))
-    elif column == 'aircon':
-        cursor.execute("UPDATE user_data SET aircon = ?", (state,))
     elif column == 'aircon_temp':
         cursor.execute("UPDATE user_data SET aircon_temp = ?", (state,))
     elif column == 'aircon_mode':
@@ -69,12 +67,13 @@ async def on_message(message):
         dbUpdate('light', 0)
     elif not re.search(r'エアコン\S*つけて', message.content) is None:
         airconOP(['off', 27])
-        airconOP(getState())
-        dbUpdate('aircon', 1)
+        state = getState()
+        airconOP(state)
+        dbUpdate('aircon_mode', state[0])
     elif not re.search(r'エアコン\S*消して', message.content) is None:
         temp = getState()[1]
         airconOP(['off', temp])
-        dbUpdate('aircon', 0)
+        dbUpdate('aircon_mode', 'off')
     elif not re.search(r'温度\S*下げて', message.content) is None:
         state = getState()
         state[1] -= 1
