@@ -3,6 +3,7 @@ import re
 import subprocess
 import sqlite3
 import encode
+import datetime
 
 connect = sqlite3.connect('db.sqlite3')
 cursor  = connect.cursor()
@@ -59,6 +60,13 @@ async def on_message(message):
 
     if not re.match(r'\$', message.content) is None:
         pass
+    elif not re.search(r'(\w+)時間後\S*(電気|エアコン)\S*(つけて|消して)', message.content) is None:
+        keywords = re.search(r'(\w+)時間後に(電気|エアコン)\S*(つけて|消して)', message.content).groups()
+        dt     = datetime.timedelta(int(keywords[0]) / 24)
+        msg    = keywords[1] + keywords[2]
+        t      = datetime.datetime.now() + dt
+        res    = "$natural {0}/{1}/{2} {3}:{4} send {5}".format(t.year, t.month, t.day, t.hour, t.minute, msg)
+        await message.channel.send(res)
     elif not re.search(r'電気\S*つけて', message.content) is None:
         lightON()
         dbUpdate('light', 1)
