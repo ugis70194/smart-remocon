@@ -57,7 +57,7 @@ def airconOP(state):
 async def on_message(message):
     message.content = str(message.content).replace(' ', '')
 
-    if not re.match(r'$', message.content) is None:
+    if not re.match(r'\$', message.content) is None:
         pass
     elif not re.search(r'電気\S*つけて', message.content) is None:
         lightON()
